@@ -10,17 +10,15 @@
 
 //Redux without React
 
-import {createStore} from 'redux';
+import {createStore,combineReducers} from 'redux';
 
-const initialState={
-    result:1, 
-    lastValues:[],
-    userName:'CC'
-};
 
 //create reducer that accept action dispatched by componente
 //intialization of the state using ES6
-const reducer=(state=initialState,action)=>{
+const mathReducer=(state={
+    result:1, 
+    lastValues:[]
+},action)=>{
     //one reducer can handle multiple actions
     switch (action.type){
         case 'ADD':
@@ -50,8 +48,35 @@ const reducer=(state=initialState,action)=>{
     //reducer must return state
     return state;
 }
+
+//reducer with initial state
+const userReducer=(state={
+    name:'CC', age:23
+},action)=>{
+    //one reducer can handle multiple actions
+    switch (action.type){
+        case 'SET_NAME':
+            
+            state={
+                ...state ,
+                name:action.payload
+                 }
+            
+            break;
+        case 'SET_AGE':
+                state={
+                    ...state ,
+                    age:action.payload
+                     }
+                    break;
+            }
+    //reducer must return state
+    return state;
+}
+
+
 //create store that holds states(initialize with first state)
-const store= createStore(reducer)
+const store= createStore(combineReducers({mathReducer,userReducer})) //mathReducer or mathReducer:mathReducer
 
 //this fuction get executed once store updated
 store.subscribe(()=>{
@@ -72,4 +97,9 @@ store.dispatch({
 store.dispatch({
     type:'SUBTRACT',
     payload:110 //payload of the action
+})
+
+store.dispatch({
+    type:'SET_AGE',
+    payload:123 //payload of the action
 })
