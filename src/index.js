@@ -12,23 +12,46 @@
 
 import {createStore} from 'redux';
 
-//create reducer that accept action dispatched by componente
+const initialState={
+    result:1, 
+    lastValues:[],
+    userName:'CC'
+};
 
-const reducer=(state,action)=>{
+//create reducer that accept action dispatched by componente
+//intialization of the state using ES6
+const reducer=(state=initialState,action)=>{
     //one reducer can handle multiple actions
     switch (action.type){
         case 'ADD':
-            state=state+action.payload;
+            //state.result +=action.payload;
+            //create new js object(imutable thing)
+            state={
+                //using ES6 copy the all property of object.its similar to
+                //result:state.result, 
+                //lastValues:state.lastValues
+                ...state ,
+                result:state.result+action.payload,
+                lastValues:[...state.lastValues,action.payload] //pushing data in imutable way
+            }
+            
             break;
         case 'SUBTRACT':
-            state=state-action.payload;
-            break;
-    }
+                state={
+                    //using ES6 copy the all property of object.its similar to
+                    //result:state.result, 
+                    //lastValues:state.lastValues
+                    ...state ,
+                    result:state.result-action.payload,
+                    lastValues:[...state.lastValues,action.payload]
+                }
+                    break;
+            }
     //reducer must return state
     return state;
 }
 //create store that holds states(initialize with first state)
-const store= createStore(reducer,1)
+const store= createStore(reducer)
 
 //this fuction get executed once store updated
 store.subscribe(()=>{
@@ -48,5 +71,5 @@ store.dispatch({
 
 store.dispatch({
     type:'SUBTRACT',
-    payload:100 //payload of the action
+    payload:110 //payload of the action
 })
