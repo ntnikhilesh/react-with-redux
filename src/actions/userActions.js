@@ -1,8 +1,12 @@
 export function setName(name){
-    return{
-        type: "SET_NAME",
-        payload:name
-    };
+    return dispatch =>{
+        setTimeout(()=>{
+            dispatch({
+                type: "SET_NAME",
+                payload:name
+            });
+        },2000);
+    }
 
 }
 
