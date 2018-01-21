@@ -1,10 +1,11 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
+import React from 'react';
+import {render} from 'react-dom';
+import {Provider} from 'react-redux';
 // import './index.css';
-// import App from './App';
+import App from './components/App';
 // import registerServiceWorker from './registerServiceWorker';
 
-// ReactDOM.render(<App />, document.getElementById('root'));
+
 // registerServiceWorker();
 
 
@@ -84,7 +85,7 @@ const userReducer=(state={
 
 //create store that holds states(initialize with first state)
 const store= createStore(
-    combineReducers({mathReducer,userReducer}),
+    combineReducers({math:mathReducer,user:userReducer}),
     {},
     applyMiddleware(logger)); //mathReducer or mathReducer:mathReducer
 
@@ -93,23 +94,32 @@ store.subscribe(()=>{
     console.log('Store updated!',store.getState());
 });
 
-//dispatch the action
-store.dispatch({
-    type:'ADD',
-    payload:10 //payload of the action
-})
+// //dispatch the action
+// store.dispatch({
+//     type:'ADD',
+//     payload:10 //payload of the action
+// })
 
-store.dispatch({
-    type:'ADD',
-    payload:100 //payload of the action
-})
+// store.dispatch({
+//     type:'ADD',
+//     payload:100 //payload of the action
+// })
 
-store.dispatch({
-    type:'SUBTRACT',
-    payload:110 //payload of the action
-})
+// store.dispatch({
+//     type:'SUBTRACT',
+//     payload:110 //payload of the action
+// })
 
-store.dispatch({
-    type:'SET_AGE',
-    payload:123 //payload of the action
-})
+// store.dispatch({
+//     type:'SET_AGE',
+//     payload:123 //payload of the action
+// })
+
+//with help of Provider will connect our react app with redux and will fetch event and subscrib store
+
+ render(
+            <Provider store={store}>
+                <App />
+            </Provider>, 
+            window.document.getElementById('root')
+        );
