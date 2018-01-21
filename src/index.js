@@ -10,7 +10,7 @@
 
 //Redux without React
 
-import {createStore,combineReducers} from 'redux';
+import {createStore,combineReducers,applyMiddleware} from 'redux';
 
 
 //create reducer that accept action dispatched by componente
@@ -75,8 +75,14 @@ const userReducer=(state={
 }
 
 
+//create Middleware
+const myLogger=(store)=>(next)=>(action)=>{
+    console.log('Logged Action: ',action);
+    next(action);
+}
+
 //create store that holds states(initialize with first state)
-const store= createStore(combineReducers({mathReducer,userReducer})) //mathReducer or mathReducer:mathReducer
+const store= createStore(combineReducers({mathReducer,userReducer}),{},applyMiddleware(myLogger)) //mathReducer or mathReducer:mathReducer
 
 //this fuction get executed once store updated
 store.subscribe(()=>{
